@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="om_woocommerce_cancel_wizard_view_form" model="ir.ui.view">
+        <field name="name">om.woocommerce.cancel.wizard.form</field>
+        <field name="model">om.woocommerce.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="order_id" readonly="1"/>
+                    <field name="note"/>
+                </group>
+                <div class="text-muted">The order gets the status Cancelled in WooCommerce, which puts its products back
+                    in stock there. The money of a paid order is given back by a refund, made in WooCommerce or from a
+                    credit note in Odoo.</div>
+                <footer>
+                    <button name="action_cancel" type="object" string="Cancel in WooCommerce" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="om_woocommerce_import_wizard_view_form" model="ir.ui.view">
+        <field name="name">om.woocommerce.import.wizard.form</field>
+        <field name="model">om.woocommerce.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="store_id"/>
+                    <field name="kind" widget="radio" options="{'horizontal': true}"/>
+                    <field name="references" placeholder="1001, 1002"/>
+                </group>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="om_woocommerce_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import by Number</field>
+        <field name="res_model">om.woocommerce.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="om_woocommerce_mapping_wizard_view_form" model="ir.ui.view">
+        <field name="name">om.woocommerce.mapping.wizard.form</field>
+        <field name="model">om.woocommerce.mapping.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="store_id"/>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <div class="text-muted">A CSV or Excel file with the columns <code>woocommerce_id</code> (the ID of a
+                    product or a variation), and <code>odoo_reference</code> or <code>odoo_barcode</code>.
+                    <field name="template_file" readonly="1" nolabel="1" widget="binary"/>
+                </div>
+                <footer>
+                    <button name="action_map" type="object" string="Link" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="om_woocommerce_mapping_wizard_action" model="ir.actions.act_window">
+        <field name="name">Map Products from a File</field>
+        <field name="res_model">om.woocommerce.mapping.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="om_woocommerce_setup_wizard_view_form" model="ir.ui.view">
+        <field name="name">om.woocommerce.setup.wizard.form</field>
+        <field name="model">om.woocommerce.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="step" widget="statusbar"/>
+                <div invisible="step != 'credentials'">
+                    <p class="text-muted">In WordPress, open WooCommerce &gt; Settings &gt; Advanced &gt; REST API, click
+                        Add key, give it the Read/Write permission, and copy its consumer key and secret.</p>
+                    <group>
+                        <field name="site_url" placeholder="https://shop.example.com" required="step == 'credentials'"/>
+                        <field name="consumer_key" password="True" placeholder="ck_…" required="step == 'credentials'"/>
+                        <field name="consumer_secret" password="True" placeholder="cs_…"
+                               required="step == 'credentials'"/>
+                        <field name="webhook_base_url" placeholder="https://odoo.example.com"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </div>
+                <div invisible="step != 'settings'">
+                    <p>Connected to <strong><field name="site_name" readonly="1"/></strong>.</p>
+                    <group>
+                        <field name="warehouse_id"/>
+                        <field name="journal_id"/>
+                        <field name="tax_mode" widget="radio"/>
+                    </group>
+                </div>
+                <div invisible="step != 'imports'">
+                    <group>
+                        <field name="import_products"/>
+                        <field name="order_import_from"/>
+                        <field name="export_stock"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_connect" type="object" string="Connect" class="btn-primary"
+                            invisible="step != 'credentials'"/>
+                    <button name="action_settings" type="object" string="Next" class="btn-primary"
+                            invisible="step != 'settings'"/>
+                    <button name="action_finish" type="object" string="Start" class="btn-primary"
+                            invisible="step != 'imports'"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="om_woocommerce_setup_wizard_action" model="ir.actions.act_window">
+        <field name="name">Connect a WooCommerce Store</field>
+        <field name="res_model">om.woocommerce.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

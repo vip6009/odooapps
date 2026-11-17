@@ -1,0 +1,29 @@
+{
+    'name': 'WooCommerce Connector',
+    'version': '1.0',
+    'author': 'Odoo Mates',
+    'category': 'Sales',
+    'summary': 'WooCommerce, WooCommerce Connector, WooCommerce Integration, WooCommerce Odoo, WordPress, Webhooks',
+    'description': 'Connect WooCommerce stores to Odoo: products, stock both ways, customers, orders with automatic '
+                   'invoicing and payment, completion with tracking numbers, refunds and cancellations, through '
+                   'webhooks and a queue.',
+    'maintainer': 'Odoo Mates',
+    'support': 'odoomates@gmail.com',
+    'license': 'LGPL-3',
+    'depends': ['om_connector_base', 'sale_management', 'stock_delivery'],
+    'data': [
+        'security/om_woocommerce_groups.xml',
+        'security/ir.access.csv',
+        'data/product_data.xml',
+        'data/order_status_data.xml',
+        'data/ir_cron.xml',
+        'views/om_woocommerce_store_views.xml',
+        'views/om_woocommerce_product_views.xml',
+        'views/sale_order_views.xml',
+        'views/account_move_views.xml',
+        'wizard/om_woocommerce_wizard_views.xml',
+        'views/om_woocommerce_config_views.xml',
+        'views/menu.xml',
+    ],
+    'application': True,
+}
